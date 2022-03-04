@@ -31,7 +31,7 @@ class ClearController
 	    $basePath = $paths[Site::selected()->handle()];
         $path = $basePath . $path; //Str::ensureLeft($path, '/');
 
-        var_dump($path); die();
+
         if (File::isDirectory($path)) {
             $this->deleteDirectory($path);
         }
