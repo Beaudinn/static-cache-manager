@@ -4,6 +4,7 @@ namespace DoubleThreeDigital\StaticCacheManager\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
+use Statamic\Facades\Site;
 use Statamic\Support\Str;
 
 class ClearController
@@ -21,7 +22,14 @@ class ClearController
 
     protected function delete($path): void
     {
-        $path = config('statamic.static_caching.strategies.full.path') . Str::ensureLeft($path, '/');
+	    $paths = config('statamic.static_caching.strategies.full.path');
+
+	    if(!array_key_exists(Site::selected()->handle(), $paths)){
+		    throw new Exception('Current site path not found');
+	    }
+
+	    $path = $paths[Site::selected()->handle()];
+        $path = $path . Str::ensureLeft($path, '/');
 
         if (File::isDirectory($path)) {
             $this->deleteDirectory($path);
