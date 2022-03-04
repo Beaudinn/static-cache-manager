@@ -28,9 +28,10 @@ class ClearController
 		    throw new Exception('Current site path not found');
 	    }
 
-	    $path = $paths[Site::selected()->handle()];
-        $path = $path . Str::ensureLeft($path, '/');
+	    $basePath = $paths[Site::selected()->handle()];
+        $path = $basePath . $path; //Str::ensureLeft($path, '/');
 
+        var_dump($path); die();
         if (File::isDirectory($path)) {
             $this->deleteDirectory($path);
         }
